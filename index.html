@@ -4,12 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#020812" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>Space Station</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main id="app" aria-live="polite">
-    <section class="screen active" data-page="home" style="--ratio: 1022/1536">
+    <section class="screen active" data-page="home" style="--ratio:1024/1536">
       <img src="assets/home.jpeg" alt="Главный экран космической станции" draggable="false" />
       <button class="hotspot settings" data-go="settings" aria-label="Настройки"></button>
       <button class="hotspot wheel" data-go="wheel" aria-label="Колесо фортуны"></button>
@@ -20,27 +21,27 @@
       <button class="hotspot card digs" data-soon="Раскопки" aria-label="Раскопки"></button>
     </section>
 
-    <section class="screen" data-page="chest" style="--ratio: 1320/2024">
+    <section class="screen" data-page="chest" style="--ratio:991/1500">
       <img src="assets/chest.jpeg" alt="Экран сундука" draggable="false" />
-      <button class="hotspot back" data-go="home" aria-label="Назад"></button>
+      <button class="hotspot back" data-back aria-label="Назад"></button>
       <button class="hotspot chest-open" data-action="open-chest" aria-label="Открыть сундук сейчас"></button>
     </section>
 
-    <section class="screen" data-page="wheel" style="--ratio: 1316/2315">
-      <img src="assets/wheel.jpeg" alt="Колесо фортуны" draggable="false" />
-      <button class="hotspot back" data-go="home" aria-label="Назад"></button>
+    <section class="screen" data-page="wheel" style="--ratio:960/1639">
+      <img src="assets/IMG_1813.jpeg" alt="Колесо фортуны" draggable="false" />
+      <button class="hotspot back" data-back aria-label="Назад"></button>
       <button class="hotspot spin" data-action="spin-wheel" aria-label="Крутить колесо"></button>
       <button class="hotspot watch" data-action="watch-video" aria-label="Смотреть видео"></button>
     </section>
 
-    <section class="screen" data-page="settings" style="--ratio: 1320/2234">
-      <img src="assets/settings.jpeg" alt="Настройки" draggable="false" />
-      <button class="hotspot back" data-go="home" aria-label="Назад"></button>
-      <button class="hotspot setting-row account" data-setting="Аккаунт"></button>
-      <button class="hotspot setting-row sound" data-setting="Звук"></button>
-      <button class="hotspot setting-row language" data-setting="Язык"></button>
-      <button class="hotspot setting-row notifications" data-action="toggle-notifications"></button>
-      <button class="hotspot setting-row support" data-setting="Поддержка"></button>
+    <section class="screen" data-page="settings" style="--ratio:960/2048">
+      <img src="assets/56CDE2CE-C749-4CA1-A529-90AC4F0A7D57.png" alt="Настройки" draggable="false" />
+      <button class="hotspot back" data-back aria-label="Назад"></button>
+      <button class="hotspot setting-row account" data-setting="Аккаунт" aria-label="Аккаунт"></button>
+      <button class="hotspot setting-row sound" data-setting="Звук" aria-label="Звук"></button>
+      <button class="hotspot setting-row language" data-setting="Язык" aria-label="Язык"></button>
+      <button class="hotspot setting-row notifications" data-action="toggle-notifications" aria-label="Уведомления"></button>
+      <button class="hotspot setting-row support" data-setting="Поддержка" aria-label="Поддержка"></button>
     </section>
   </main>
 
