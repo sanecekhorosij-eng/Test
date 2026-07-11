@@ -28,51 +28,58 @@ button { font: inherit; }
   user-select: none;
   -webkit-user-select: none;
 }
+
 .screen.active { display: block; }
+.screen[hidden] { display: none !important; }
 .screen > img { width: 100%; height: 100%; display: block; object-fit: fill; pointer-events: none; }
 
 .hotspot {
   position: absolute;
+  z-index: 20;
   border: 0;
   padding: 0;
+  margin: 0;
   background: transparent;
   cursor: pointer;
   border-radius: 16px;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  pointer-events: auto;
 }
 .hotspot:focus-visible { outline: 3px solid #fff; outline-offset: -4px; }
 .hotspot:active { background: rgb(255 255 255 / .10); transform: scale(.985); }
 
 /* Главный экран */
-.settings { left: 88%; top: 6.5%; width: 10%; height: 7%; }
-.wheel { left: 88%; top: 14.5%; width: 10%; height: 8%; }
-.chest { left: 88%; top: 23%; width: 10%; height: 10.5%; }
-.card { top: 82.5%; height: 16.5%; }
-.collection { left: 1.5%; width: 23%; }
-.laboratory { left: 25.5%; width: 23%; }
-.mine { left: 49.5%; width: 23%; }
-.digs { left: 73.5%; width: 25%; }
+.settings { left: 87%; top: 6%; width: 12%; height: 8%; }
+.wheel { left: 87%; top: 14%; width: 12%; height: 9%; }
+.chest { left: 87%; top: 22.5%; width: 12%; height: 11%; }
+.card { top: 82%; height: 17.5%; }
+.collection { left: 1%; width: 24%; }
+.laboratory { left: 25%; width: 24%; }
+.mine { left: 49%; width: 24%; }
+.digs { left: 73%; width: 26%; }
 
 /* Общая кнопка назад */
-.back { left: 1.5%; top: .5%; width: 11%; height: 7%; }
+.back { left: 0; top: 0; width: 16%; height: 10%; }
 
 /* Сундук */
-.chest-open { left: 20%; top: 88%; width: 60%; height: 8%; }
+.chest-open { left: 18%; top: 87%; width: 64%; height: 10%; }
 
 /* Колесо */
-.spin { left: 20%; top: 81%; width: 60%; height: 8%; }
-.watch { left: 61%; top: 94%; width: 31%; height: 5%; }
+.spin { left: 18%; top: 79.5%; width: 64%; height: 10%; }
+.watch { left: 58%; top: 92.5%; width: 38%; height: 7%; }
 
 /* Настройки */
-.setting-row { left: 10%; width: 80%; height: 10.5%; }
-.account { top: 21.5%; }
-.sound { top: 32.5%; }
-.language { top: 43.5%; }
-.notifications { top: 54.5%; }
-.support { top: 65.5%; }
+.setting-row { left: 8%; width: 84%; height: 11%; }
+.account { top: 20%; }
+.sound { top: 31%; }
+.language { top: 42%; }
+.notifications { top: 53%; }
+.support { top: 64%; }
 
 #toast {
   position: fixed;
+  z-index: 100;
   left: 50%;
   bottom: max(22px, env(safe-area-inset-bottom));
   transform: translate(-50%, 24px);
@@ -88,7 +95,6 @@ button { font: inherit; }
   font-weight: 700;
   pointer-events: none;
   transition: .22s ease;
-  z-index: 50;
 }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
 
