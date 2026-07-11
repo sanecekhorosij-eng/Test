@@ -1,0 +1,101 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #020812;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; min-height: 100%; overflow: hidden; background: #020812; }
+button { font: inherit; }
+
+#app {
+  width: 100vw;
+  height: 100dvh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 20%, #0b2e59 0, #020812 58%, #000 100%);
+}
+
+.screen {
+  display: none;
+  position: relative;
+  height: 100dvh;
+  width: min(100vw, calc(100dvh * var(--ratio)));
+  aspect-ratio: var(--ratio);
+  overflow: hidden;
+  background: #020812;
+  box-shadow: 0 0 40px rgb(0 90 180 / .25);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.screen.active { display: block; }
+.screen > img { width: 100%; height: 100%; display: block; object-fit: fill; pointer-events: none; }
+
+.hotspot {
+  position: absolute;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 16px;
+  -webkit-tap-highlight-color: transparent;
+}
+.hotspot:focus-visible { outline: 3px solid #fff; outline-offset: -4px; }
+.hotspot:active { background: rgb(255 255 255 / .10); transform: scale(.985); }
+
+/* Главный экран */
+.settings { left: 88%; top: 6.5%; width: 10%; height: 7%; }
+.wheel { left: 88%; top: 14.5%; width: 10%; height: 8%; }
+.chest { left: 88%; top: 23%; width: 10%; height: 10.5%; }
+.card { top: 82.5%; height: 16.5%; }
+.collection { left: 1.5%; width: 23%; }
+.laboratory { left: 25.5%; width: 23%; }
+.mine { left: 49.5%; width: 23%; }
+.digs { left: 73.5%; width: 25%; }
+
+/* Общая кнопка назад */
+.back { left: 1.5%; top: .5%; width: 11%; height: 7%; }
+
+/* Сундук */
+.chest-open { left: 20%; top: 88%; width: 60%; height: 8%; }
+
+/* Колесо */
+.spin { left: 20%; top: 81%; width: 60%; height: 8%; }
+.watch { left: 61%; top: 94%; width: 31%; height: 5%; }
+
+/* Настройки */
+.setting-row { left: 10%; width: 80%; height: 10.5%; }
+.account { top: 21.5%; }
+.sound { top: 32.5%; }
+.language { top: 43.5%; }
+.notifications { top: 54.5%; }
+.support { top: 65.5%; }
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: max(22px, env(safe-area-inset-bottom));
+  transform: translate(-50%, 24px);
+  opacity: 0;
+  max-width: min(88vw, 420px);
+  padding: 12px 18px;
+  border: 1px solid #31a7ff;
+  border-radius: 14px;
+  color: white;
+  background: rgb(2 14 30 / .94);
+  box-shadow: 0 0 24px rgb(0 145 255 / .45);
+  text-align: center;
+  font-weight: 700;
+  pointer-events: none;
+  transition: .22s ease;
+  z-index: 50;
+}
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (orientation: landscape) {
+  .screen { height: 100dvh; width: calc(100dvh * var(--ratio)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
