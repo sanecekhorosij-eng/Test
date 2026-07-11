@@ -103,19 +103,14 @@
     }
   }
 
+  // Один обработчик click работает и для мыши, и для касаний,
+  // и не допускает двойного срабатывания touchend + click на iPhone.
   document.addEventListener('click', (event) => {
     const button = event.target.closest('.hotspot');
     if (!button) return;
     event.preventDefault();
     activate(button);
   });
-
-  document.addEventListener('touchend', (event) => {
-    const button = event.target.closest('.hotspot');
-    if (!button) return;
-    event.preventDefault();
-    activate(button);
-  }, { passive: false });
 
   window.addEventListener('popstate', (event) => {
     const page = event.state?.page || location.hash.slice(1) || 'home';
@@ -126,8 +121,8 @@
     if (event.key === 'Escape') goHome();
   });
 
-  // Приложение всегда должно запускаться с главного экрана,
-  // даже если браузер восстановил старый hash вроде #settings.
+  // Приложение всегда запускается с главного экрана,
+  // даже если браузер восстановил старый адрес #settings.
   renderPage('home');
   setUrl('home', 'replace');
 })();
