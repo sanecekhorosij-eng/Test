@@ -7,49 +7,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <title>Space Station</title>
-  <link rel="stylesheet" href="styles.css?v=13" />
+  <link rel="stylesheet" href="styles.css?v=14" />
 </head>
 <body>
-  <main id="app" aria-live="polite">
-    <section class="screen active" data-page="home" style="--ratio:1024/1536" aria-hidden="false">
-      <img id="home-image" src="assets/home.jpg?v=13" alt="Главный экран космической станции" draggable="false" />
-      <button type="button" class="hotspot settings" data-go="settings" aria-label="Настройки"></button>
-      <button type="button" class="hotspot wheel" data-go="wheel" aria-label="Колесо фортуны"></button>
-      <button type="button" class="hotspot chest" data-go="chest" aria-label="Сундук"></button>
-      <output id="chest-timer" class="timer-badge chest-timer" aria-label="Таймер сундука"></output>
-      <output id="wheel-timer" class="timer-badge wheel-timer" aria-label="Таймер колеса"></output>
-      <button type="button" class="hotspot card collection" data-soon="Коллекция" aria-label="Коллекция"></button>
-      <button type="button" class="hotspot card laboratory" data-soon="Лаборатория" aria-label="Лаборатория"></button>
-      <button type="button" class="hotspot card mine" data-soon="Майн станция" aria-label="Майн станция"></button>
-      <button type="button" class="hotspot card digs" data-soon="Раскопки" aria-label="Раскопки"></button>
-    </section>
-
-    <section class="screen" data-page="chest" style="--ratio:960/1639" hidden aria-hidden="true">
-      <img src="assets/IMG_1813.jpeg?v=13" alt="Экран сундука" draggable="false" />
-      <div id="chest-flash" class="chest-flash" aria-hidden="true"></div>
-      <button type="button" class="hotspot back" data-back aria-label="Назад"></button>
-      <button type="button" class="hotspot chest-open" data-action="open-chest" aria-label="Открыть сундук сейчас"></button>
-    </section>
-
-    <section class="screen" data-page="wheel" style="--ratio:991/1500" hidden aria-hidden="true">
-      <img src="assets/IMG_1797.jpeg?v=13" alt="Колесо фортуны" draggable="false" />
-      <div id="wheel-rotor" class="wheel-rotor" aria-hidden="true"></div>
-      <div class="wheel-pointer" aria-hidden="true"></div>
-      <button type="button" class="hotspot back" data-back aria-label="Назад"></button>
-      <button type="button" class="hotspot spin" data-action="spin-wheel" aria-label="Крутить колесо"></button>
-      <button type="button" class="hotspot watch" data-action="watch-video" aria-label="Смотреть видео"></button>
-    </section>
-
-    <section class="screen" data-page="settings" style="--ratio:960/2048" hidden aria-hidden="true">
-      <img src="assets/settings.PNG?v=13" alt="Настройки" draggable="false" />
-      <button type="button" class="hotspot back" data-back aria-label="Назад"></button>
-      <button type="button" class="hotspot setting-row account" data-setting="Аккаунт" aria-label="Аккаунт"></button>
-      <button type="button" class="hotspot setting-row sound" data-setting="Звук" aria-label="Звук"></button>
-      <button type="button" class="hotspot setting-row language" data-setting="Язык" aria-label="Язык"></button>
-      <button type="button" class="hotspot setting-row notifications" data-action="toggle-notifications" aria-label="Уведомления"></button>
-      <button type="button" class="hotspot setting-row support" data-setting="Поддержка" aria-label="Поддержка"></button>
-    </section>
-  </main>
+  <main id="app" aria-live="polite"></main>
 
   <div id="reward-modal" class="reward-modal" hidden role="dialog" aria-modal="true" aria-labelledby="reward-title">
     <div class="reward-card">
@@ -61,6 +22,6 @@
   </div>
 
   <div id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=13"></script>
+  <script type="module" src="src/bootstrap.js?v=14"></script>
 </body>
 </html>
