@@ -4,7 +4,6 @@
   function startApp() {
     const screens = Array.from(document.querySelectorAll('.screen'));
     const toast = document.getElementById('toast');
-    const homeImage = document.getElementById('home-image');
     const validPages = new Set(screens.map((screen) => screen.dataset.page));
     let toastTimer = 0;
     let spinning = false;
@@ -16,14 +15,6 @@
       notificationsEnabled = true;
     }
 
-    function saveNotifications() {
-      try {
-        window.localStorage.setItem('notificationsEnabled', String(notificationsEnabled));
-      } catch (_) {
-        // Приложение продолжает работать при заблокированном localStorage.
-      }
-    }
-
     function showToast(message) {
       if (!toast) return;
       window.clearTimeout(toastTimer);
@@ -32,68 +23,61 @@
       toastTimer = window.setTimeout(() => toast.classList.remove('show'), 1800);
     }
 
-    function loadHomeImage() {
-      if (!homeImage) return;
-      homeImage.src = 'assets/home-screen.jpeg.JPEG?v=8';
-      homeImage.addEventListener('error', () => {
-        console.error('Не удалось загрузить главный экран');
-        showToast('Ошибка загрузки главного экрана');
-      }, { once: true });
+    function saveNotifications() {
+      try {
+        window.localStorage.setItem('notificationsEnabled', String(notificationsEnabled));
+      } catch (_) {
+        // Работа продолжается даже при недоступном localStorage.
+      }
     }
 
     function renderPage(page) {
-      const safePage = validPages.has(page) ? page : 'home';
+      const targetPage = validPages.has(page) ? page : 'home';
+
       screens.forEach((screen) => {
-        const active = screen.dataset.page === safePage;
-        screen.classList.toggle('active', active);
-        screen.hidden = !active;
-        screen.setAttribute('aria-hidden', String(!active));
+        const isActive = screen.dataset.page === targetPage;
+        screen.hidden = !isActive;
+        screen.classList.toggle('active', isActive);
+        screen.setAttribute('aria-hidden', String(!isActive));
       });
-      document.body.dataset.page = safePage;
-      window.scrollTo(0, 0);
-      return safePage;
+
+      document.body.dataset.page = targetPage;
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }
 
-    function setHash(page, replace = false) {
-      const url = `${window.location.pathname}${window.location.search}#${page}`;
-      const state = { page };
+    function setPage(page, replace = false) {
+      const targetPage = validPages.has(page) ? page : 'home';
+      renderPage(targetPage);
+
+      const url = `${window.location.pathname}${window.location.search}#${targetPage}`;
+      const state = { page: targetPage };
+
       try {
         if (replace) window.history.replaceState(state, '', url);
         else window.history.pushState(state, '', url);
       } catch (_) {
-        window.location.hash = page;
+        window.location.hash = targetPage;
       }
-    }
-
-    function goTo(page) {
-      if (!validPages.has(page)) {
-        showToast('Экран пока недоступен');
-        return;
-      }
-      renderPage(page);
-      setHash(page, false);
-    }
-
-    function goHome() {
-      renderPage('home');
-      setHash('home', true);
     }
 
     function activate(button) {
       if (!button || button.disabled) return;
 
       if (button.hasAttribute('data-back')) {
-        goHome();
+        setPage('home');
         return;
       }
+
       if (button.dataset.go) {
-        goTo(button.dataset.go);
+        setPage(button.dataset.go);
         return;
       }
+
       if (button.dataset.soon) {
         showToast(`${button.dataset.soon}: раздел скоро будет доступен`);
         return;
       }
+
       if (button.dataset.setting) {
         showToast(`${button.dataset.setting}: пункт выбран`);
         return;
@@ -127,6 +111,13 @@
       }
     }
 
+    document.querySelectorAll('.screen > img').forEach((image) => {
+      image.addEventListener('error', () => {
+        console.error(`Не удалось загрузить изображение: ${image.getAttribute('src')}`);
+        showToast('Ошибка загрузки изображения');
+      });
+    });
+
     document.addEventListener('click', (event) => {
       const button = event.target.closest('.hotspot');
       if (!button) return;
@@ -138,16 +129,11 @@
       renderPage(event.state?.page || window.location.hash.slice(1) || 'home');
     });
 
-    window.addEventListener('hashchange', () => {
-      renderPage(window.location.hash.slice(1) || 'home');
-    });
-
     window.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') goHome();
+      if (event.key === 'Escape') setPage('home');
     });
 
-    loadHomeImage();
-    goHome();
+    setPage('home', true);
     document.documentElement.classList.add('app-ready');
   }
 
