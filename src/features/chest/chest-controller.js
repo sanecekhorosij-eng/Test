@@ -5,6 +5,7 @@ import { drawChestReward, applyChestReward } from './chest-rewards.js';
 import { getChestView, renderChestTimer, renderCrystalBalance, renderChestReward } from './chest-view.js';
 import { playChestAnimation, resetChestAnimation } from './chest-animation.js';
 import { getCrystalBalance, spendCrystals } from '../../state/player-wallet.js';
+import { showToast } from '../../shared/toast.js';
 
 export function initChestFeature() {
   const view = getChestView();
@@ -12,6 +13,11 @@ export function initChestFeature() {
 
   let readyAt = readChestReadyAt();
   let opening = false;
+
+  if (readyAt <= 0) {
+    readyAt = Date.now() + CHEST_CONFIG.cooldownMs;
+    writeChestReadyAt(readyAt);
+  }
 
   const timer = createChestTimer({
     getReadyAt: () => readyAt,
@@ -27,7 +33,7 @@ export function initChestFeature() {
     if (!paid && !isReady) return;
 
     if (paid && !spendCrystals(CHEST_CONFIG.paidOpenCost)) {
-      window.dispatchEvent(new CustomEvent('app:toast', { detail: 'Недостаточно кристаллов' }));
+      showToast('Недостаточно кристаллов');
       return;
     }
 
@@ -50,10 +56,7 @@ export function initChestFeature() {
 
   view.freeButton?.addEventListener('click', () => openChest({ paid: false }));
   view.paidButton?.addEventListener('click', () => openChest({ paid: true }));
-
-  view.reward?.addEventListener('click', () => {
-    resetChestAnimation(view);
-  });
+  view.reward?.addEventListener('click', () => resetChestAnimation(view));
 
   window.addEventListener('wallet:changed', syncBalance);
   syncBalance();
