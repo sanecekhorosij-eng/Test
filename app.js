@@ -4,6 +4,7 @@
   function startApp() {
     const screens = Array.from(document.querySelectorAll('.screen'));
     const toast = document.getElementById('toast');
+    const homeImage = document.getElementById('home-image');
     const validPages = new Set(screens.map((screen) => screen.dataset.page));
     let toastTimer = 0;
     let spinning = false;
@@ -19,7 +20,7 @@
       try {
         window.localStorage.setItem('notificationsEnabled', String(notificationsEnabled));
       } catch (_) {
-        // Приложение продолжает работать даже при заблокированном localStorage.
+        // Приложение продолжает работать при заблокированном localStorage.
       }
     }
 
@@ -29,6 +30,23 @@
       toast.textContent = message;
       toast.classList.add('show');
       toastTimer = window.setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+
+    async function loadHomeImage() {
+      if (!homeImage) return;
+
+      try {
+        const response = await window.fetch('assets/home-v7.b64?v=7', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const base64 = (await response.text()).trim();
+        if (!base64) throw new Error('Пустой файл изображения');
+
+        homeImage.src = `data:image/jpeg;base64,${base64}`;
+      } catch (error) {
+        console.error('Не удалось загрузить главный экран:', error);
+        showToast('Ошибка загрузки главного экрана');
+      }
     }
 
     function renderPage(page) {
@@ -136,6 +154,7 @@
       if (event.key === 'Escape') goHome();
     });
 
+    loadHomeImage();
     goHome();
     document.documentElement.classList.add('app-ready');
   }
