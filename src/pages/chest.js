@@ -1,9 +1,9 @@
-import { PAGE_BACKGROUNDS } from '../config/page-backgrounds.js';
+import { CHEST_ASSETS } from '../features/chest/chest-assets.js';
 
 export function createChestPage() {
   return `
     <section class="screen chest-screen" data-page="chest" style="--ratio:960/1639" hidden aria-hidden="true">
-      <img src="${PAGE_BACKGROUNDS.chest}" alt="Экран сундука" draggable="false" />
+      <img class="chest-background-image" src="${CHEST_ASSETS.background}" alt="Космический зал сундука" draggable="false" />
       <div class="chest-overlay" aria-hidden="true"></div>
 
       <button type="button" class="hotspot back" data-back aria-label="Назад"></button>
@@ -13,9 +13,10 @@ export function createChestPage() {
       </div>
 
       <div id="animated-chest" class="animated-chest" aria-label="Сундук с наградой">
-        <div class="chest-glow"></div>
-        <div class="chest-lid-part"></div>
-        <div class="chest-base-part"></div>
+        <img class="chest-burst-image" src="${CHEST_ASSETS.burst}" alt="" draggable="false" aria-hidden="true" />
+        <img class="chest-lid-part" src="${CHEST_ASSETS.lid}" alt="" draggable="false" aria-hidden="true" />
+        <img class="chest-base-part" src="${CHEST_ASSETS.base}" alt="" draggable="false" aria-hidden="true" />
+        <img class="chest-open-image" src="${CHEST_ASSETS.open}" alt="" draggable="false" aria-hidden="true" />
       </div>
 
       <div class="chest-actions-row">
