@@ -4,8 +4,8 @@ import { createChestTimer } from './chest-timer.js';
 import { drawChestReward, applyChestReward } from './chest-rewards.js';
 import { getChestView, renderChestTimer, renderCrystalBalance, renderChestReward } from './chest-view.js';
 import { playChestAnimation, resetChestAnimation } from './chest-animation.js';
-import { getCrystalBalance, spendCrystals } from '../../state/player-wallet.js';
-import { showToast } from '../../shared/toast.js';
+import { watchRewardedAd } from './chest-ad.js';
+import { getCrystalBalance } from '../../state/player-wallet.js';
 
 export function initChestFeature() {
   const view = getChestView();
@@ -26,36 +26,41 @@ export function initChestFeature() {
 
   const syncBalance = () => renderCrystalBalance(view, getCrystalBalance());
 
-  async function openChest({ paid }) {
+  async function revealReward({ restartFreeTimer }) {
     if (opening) return;
 
-    const isReady = readyAt <= Date.now();
-    if (!paid && !isReady) return;
-
-    if (paid && !spendCrystals(CHEST_CONFIG.paidOpenCost)) {
-      showToast('Недостаточно кристаллов');
-      return;
-    }
-
     opening = true;
-    syncBalance();
+    view.freeButton && (view.freeButton.disabled = true);
+    view.adButton && (view.adButton.disabled = true);
+
     const reward = drawChestReward();
     renderChestReward(view, reward);
     await playChestAnimation(view);
     applyChestReward(reward);
     syncBalance();
 
-    if (!paid) {
+    if (restartFreeTimer) {
       readyAt = Date.now() + CHEST_CONFIG.cooldownMs;
       writeChestReadyAt(readyAt);
       timer.refresh();
     }
 
     opening = false;
+    view.adButton && (view.adButton.disabled = false);
+    timer.refresh();
   }
 
-  view.freeButton?.addEventListener('click', () => openChest({ paid: false }));
-  view.paidButton?.addEventListener('click', () => openChest({ paid: true }));
+  view.freeButton?.addEventListener('click', () => {
+    if (readyAt > Date.now()) return;
+    revealReward({ restartFreeTimer: true });
+  });
+
+  view.adButton?.addEventListener('click', async () => {
+    if (opening) return;
+    const completed = await watchRewardedAd(view.adButton);
+    if (completed) await revealReward({ restartFreeTimer: false });
+  });
+
   view.reward?.addEventListener('click', () => resetChestAnimation(view));
 
   window.addEventListener('wallet:changed', syncBalance);
