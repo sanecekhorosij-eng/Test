@@ -1,4 +1,5 @@
 import { renderPages } from './pages/index.js';
+import { initChestFeature } from './features/chest/chest-controller.js';
 
 const app = document.getElementById('app');
 
@@ -8,5 +9,8 @@ if (!app) {
 
 renderPages(app);
 
-// Загружаем существующую логику только после создания модулей страниц.
-await import('../app.js?v=14');
+// Загружаем существующую общую логику после создания страниц.
+await import('../app.js?v=15');
+
+// Инициализируем независимые функциональные модули.
+initChestFeature();
