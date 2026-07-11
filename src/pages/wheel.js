@@ -1,7 +1,9 @@
+import { PAGE_BACKGROUNDS } from '../config/page-backgrounds.js';
+
 export function createWheelPage() {
   return `
     <section class="screen" data-page="wheel" style="--ratio:991/1500" hidden aria-hidden="true">
-      <img src="assets/IMG_1797.jpeg?v=13" alt="Колесо фортуны" draggable="false" />
+      <img src="${PAGE_BACKGROUNDS.wheel}" alt="Колесо фортуны" draggable="false" />
       <div id="wheel-rotor" class="wheel-rotor" aria-hidden="true"></div>
       <div class="wheel-pointer" aria-hidden="true"></div>
       <button type="button" class="hotspot back" data-back aria-label="Назад"></button>
