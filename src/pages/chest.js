@@ -1,5 +1,4 @@
 import { PAGE_BACKGROUNDS } from '../config/page-backgrounds.js';
-import { CHEST_CONFIG } from '../features/chest/chest-config.js';
 
 export function createChestPage() {
   return `
@@ -11,7 +10,6 @@ export function createChestPage() {
 
       <div class="chest-status-panel">
         <div class="chest-wallet">💎 <span id="chest-crystal-balance">0</span></div>
-        <div id="chest-page-timer" class="chest-page-timer">Следующий сундук: 00:00:00</div>
       </div>
 
       <div id="animated-chest" class="animated-chest" aria-label="Сундук с наградой">
@@ -20,13 +18,17 @@ export function createChestPage() {
         <div class="chest-base-part"></div>
       </div>
 
-      <button id="chest-free-button" class="chest-action-button chest-free-button" type="button" hidden>
-        Бесплатно
-      </button>
+      <div class="chest-actions-row">
+        <button id="chest-free-button" class="chest-action-button chest-free-button" type="button" disabled>
+          <span class="chest-button-title">Бесплатно</span>
+          <span id="chest-page-timer" class="chest-button-subtitle">00:00:00</span>
+        </button>
 
-      <button id="chest-paid-button" class="chest-action-button chest-paid-button" type="button">
-        Открыть сейчас — ${CHEST_CONFIG.paidOpenCost} 💎
-      </button>
+        <button id="chest-ad-button" class="chest-action-button chest-ad-button" type="button">
+          <span class="chest-button-title">Смотреть рекламу</span>
+          <span class="chest-button-subtitle">Открыть сейчас</span>
+        </button>
+      </div>
 
       <button id="chest-reward" class="chest-reward" type="button" hidden aria-label="Забрать награду">
         <span id="chest-reward-icon" class="chest-reward-icon">🎁</span>
