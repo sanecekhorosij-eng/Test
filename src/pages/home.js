@@ -1,7 +1,9 @@
+import { PAGE_BACKGROUNDS } from '../config/page-backgrounds.js';
+
 export function createHomePage() {
   return `
     <section class="screen active" data-page="home" style="--ratio:1024/1536" aria-hidden="false">
-      <img id="home-image" src="assets/home.jpg?v=13" alt="Главный экран космической станции" draggable="false" />
+      <img id="home-image" src="${PAGE_BACKGROUNDS.home}" alt="Главный экран космической станции" draggable="false" />
       <button type="button" class="hotspot settings" data-go="settings" aria-label="Настройки"></button>
       <button type="button" class="hotspot wheel" data-go="wheel" aria-label="Колесо фортуны"></button>
       <button type="button" class="hotspot chest" data-go="chest" aria-label="Сундук"></button>
