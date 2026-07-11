@@ -2,6 +2,7 @@ export function getChestView() {
   return {
     root: document.querySelector('[data-page="chest"]'),
     timer: document.getElementById('chest-page-timer'),
+    homeTimer: document.getElementById('home-chest-timer'),
     freeButton: document.getElementById('chest-free-button'),
     paidButton: document.getElementById('chest-paid-button'),
     balance: document.getElementById('chest-crystal-balance'),
@@ -14,6 +15,10 @@ export function getChestView() {
 
 export function renderChestTimer(view, state) {
   if (view.timer) view.timer.textContent = state.ready ? 'Сундук готов' : `Следующий сундук: ${state.label}`;
+  if (view.homeTimer) {
+    view.homeTimer.textContent = state.ready ? 'ГОТОВО' : state.label;
+    view.homeTimer.classList.toggle('ready', state.ready);
+  }
   if (view.freeButton) view.freeButton.hidden = !state.ready;
   if (view.paidButton) view.paidButton.hidden = state.ready;
 }
