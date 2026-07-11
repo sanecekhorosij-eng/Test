@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const screens = [...document.querySelectorAll('.screen')];
+  const screens = Array.from(document.querySelectorAll('.screen'));
   const toast = document.getElementById('toast');
   const validPages = new Set(screens.map((screen) => screen.dataset.page));
   let toastTimer = 0;
@@ -17,38 +17,63 @@
 
   function renderPage(page) {
     const safePage = validPages.has(page) ? page : 'home';
+
     screens.forEach((screen) => {
       const active = screen.dataset.page === safePage;
       screen.classList.toggle('active', active);
+      screen.hidden = !active;
       screen.setAttribute('aria-hidden', String(!active));
     });
+
+    document.body.dataset.page = safePage;
+    window.scrollTo(0, 0);
     return safePage;
   }
 
-  function goTo(page, push = true) {
+  function setUrl(page, mode = 'push') {
+    const url = `${location.pathname}${location.search}#${page}`;
+    const state = { page };
+    if (mode === 'replace') history.replaceState(state, '', url);
+    else history.pushState(state, '', url);
+  }
+
+  function goTo(page, mode = 'push') {
     if (!validPages.has(page)) {
       showToast('Экран пока недоступен');
       return;
     }
+
     renderPage(page);
-    const url = `${location.pathname}${location.search}#${page}`;
-    if (push) history.pushState({ page }, '', url);
-    else history.replaceState({ page }, '', url);
+    setUrl(page, mode);
   }
 
-  function goBack() {
-    if (location.hash && location.hash !== '#home' && history.length > 1) history.back();
-    else goTo('home');
+  function goHome() {
+    renderPage('home');
+    setUrl('home', 'replace');
   }
 
-  document.addEventListener('click', (event) => {
-    const button = event.target.closest('button');
-    if (!button) return;
+  function activate(button) {
+    if (!button || button.disabled) return;
 
-    if (button.hasAttribute('data-back')) return goBack();
-    if (button.dataset.go) return goTo(button.dataset.go);
-    if (button.dataset.soon) return showToast(`${button.dataset.soon}: раздел скоро будет доступен`);
-    if (button.dataset.setting) return showToast(`${button.dataset.setting}: пункт выбран`);
+    if (button.hasAttribute('data-back')) {
+      goHome();
+      return;
+    }
+
+    if (button.dataset.go) {
+      goTo(button.dataset.go);
+      return;
+    }
+
+    if (button.dataset.soon) {
+      showToast(`${button.dataset.soon}: раздел скоро будет доступен`);
+      return;
+    }
+
+    if (button.dataset.setting) {
+      showToast(`${button.dataset.setting}: пункт выбран`);
+      return;
+    }
 
     switch (button.dataset.action) {
       case 'toggle-notifications':
@@ -76,13 +101,33 @@
       default:
         break;
     }
+  }
+
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('.hotspot');
+    if (!button) return;
+    event.preventDefault();
+    activate(button);
   });
 
-  window.addEventListener('popstate', () => renderPage(location.hash.slice(1) || 'home'));
+  document.addEventListener('touchend', (event) => {
+    const button = event.target.closest('.hotspot');
+    if (!button) return;
+    event.preventDefault();
+    activate(button);
+  }, { passive: false });
+
+  window.addEventListener('popstate', (event) => {
+    const page = event.state?.page || location.hash.slice(1) || 'home';
+    renderPage(page);
+  });
+
   window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') goBack();
+    if (event.key === 'Escape') goHome();
   });
 
-  const initial = location.hash.slice(1);
-  goTo(validPages.has(initial) ? initial : 'home', false);
+  // Приложение всегда должно запускаться с главного экрана,
+  // даже если браузер восстановил старый hash вроде #settings.
+  renderPage('home');
+  setUrl('home', 'replace');
 })();
