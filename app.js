@@ -32,21 +32,13 @@
       toastTimer = window.setTimeout(() => toast.classList.remove('show'), 1800);
     }
 
-    async function loadHomeImage() {
+    function loadHomeImage() {
       if (!homeImage) return;
-
-      try {
-        const response = await window.fetch('assets/home-v7.b64?v=7', { cache: 'no-store' });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-        const base64 = (await response.text()).trim();
-        if (!base64) throw new Error('Пустой файл изображения');
-
-        homeImage.src = `data:image/jpeg;base64,${base64}`;
-      } catch (error) {
-        console.error('Не удалось загрузить главный экран:', error);
+      homeImage.src = 'assets/home-screen.jpeg.JPEG?v=8';
+      homeImage.addEventListener('error', () => {
+        console.error('Не удалось загрузить главный экран');
         showToast('Ошибка загрузки главного экрана');
-      }
+      }, { once: true });
     }
 
     function renderPage(page) {
