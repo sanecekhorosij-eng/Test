@@ -42,7 +42,6 @@ export function initChestFeature() {
     if (restartFreeTimer) {
       readyAt = Date.now() + CHEST_CONFIG.cooldownMs;
       writeChestReadyAt(readyAt);
-      timer.refresh();
     }
 
     opening = false;
@@ -51,14 +50,20 @@ export function initChestFeature() {
   }
 
   view.freeButton?.addEventListener('click', () => {
-    if (readyAt > Date.now()) return;
+    if (opening || readyAt > Date.now()) return;
     revealReward({ restartFreeTimer: true });
   });
 
   view.adButton?.addEventListener('click', async () => {
     if (opening) return;
+
+    opening = true;
+    view.freeButton && (view.freeButton.disabled = true);
     const completed = await watchRewardedAd(view.adButton);
+    opening = false;
+
     if (completed) await revealReward({ restartFreeTimer: false });
+    else timer.refresh();
   });
 
   view.reward?.addEventListener('click', () => resetChestAnimation(view));
