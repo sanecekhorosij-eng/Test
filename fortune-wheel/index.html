@@ -1,1 +1,150 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Колесо фортуны</title><style>*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;background:radial-gradient(circle at 50% 25%,#0b2850 0,#061325 36%,#01050c 75%);color:#fff}body{display:grid;place-items:center;padding:20px}.app{width:min(94vw,520px);text-align:center}.title{font-size:clamp(28px,7vw,52px);font-weight:900;letter-spacing:.04em;text-shadow:0 0 18px #1fa8ff;margin:4px 0 8px}.sub{color:#b9ddf4;margin-bottom:24px}.wheelBox{position:relative;width:100%;aspect-ratio:1}.pointer{position:absolute;z-index:5;left:50%;top:-6px;transform:translateX(-50%);width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-top:58px solid #ffd24a;filter:drop-shadow(0 0 10px #ff9d00)}.wheel{width:100%;height:100%;border-radius:50%;border:12px solid #b87916;box-shadow:0 0 0 6px #102a44,0 0 35px #169dff,inset 0 0 30px #000;transition:transform 4.6s cubic-bezier(.06,.88,.12,1);background:conic-gradient(from -15deg,#0a7044 0 30deg,#9a5b05 30deg 60deg,#0f4f89 60deg 90deg,#612697 90deg 120deg,#08713f 120deg 150deg,#a15f05 150deg 180deg,#0b4d84 180deg 210deg,#76258a 210deg 240deg,#0d6b43 240deg 270deg,#9b630b 270deg 300deg,#104f80 300deg 330deg,#662486 330deg 360deg);position:relative}.hub{position:absolute;inset:39%;border-radius:50%;background:radial-gradient(circle,#dff8ff 0 12%,#16a9ff 13% 32%,#092c57 33% 65%,#c78918 66% 78%,#071426 79%);box-shadow:0 0 18px #19b7ff}.labels{position:absolute;inset:0;pointer-events:none}.label{position:absolute;left:50%;top:50%;width:100px;margin-left:-50px;margin-top:-14px;text-align:center;font-weight:800;font-size:13px;transform-origin:50% 14px;text-shadow:0 2px 4px #000}.spin{margin-top:26px;width:78%;padding:18px 20px;border:0;border-radius:16px;background:linear-gradient(#ffd95d,#d98a00);color:#fff;font-size:30px;font-weight:900;box-shadow:0 0 22px #ffad00;cursor:pointer}.spin:disabled{filter:grayscale(.5);opacity:.7}.result{min-height:42px;margin-top:18px;font-size:24px;font-weight:900;color:#ffe581;text-shadow:0 0 10px #ffad00}</style></head><body><main class="app"><div class="title">КОЛЕСО ФОРТУНЫ</div><div class="sub">Нажмите кнопку — колесо плавно остановится на награде</div><div class="wheelBox"><div class="pointer"></div><div id="wheel" class="wheel"></div><div class="hub"></div><div id="labels" class="labels"></div></div><button id="spin" class="spin">КРУТИТЬ</button><div id="result" class="result"></div></main><script>const prizes=['100 энергии','50 000 монет','200 кристаллов','10 ускорителей','Редкий сундук','10 000 монет','50 энергии','500 кристаллов','Билет','5 ускорителей','25 000 монет','Эпический сундук'];const wheel=document.getElementById('wheel'),btn=document.getElementById('spin'),res=document.getElementById('result'),labels=document.getElementById('labels');prizes.forEach((p,i)=>{const e=document.createElement('div');e.className='label';const a=i*30+15;e.style.transform=`rotate(${a}deg) translateY(-41vw) rotate(${-a}deg)`;e.style.maxWidth='100px';e.textContent=p;labels.appendChild(e)});let rotation=0,spinning=false;const norm=a=>((a%360)+360)%360;btn.onclick=()=>{if(spinning)return;spinning=true;btn.disabled=true;res.textContent='';const i=Math.floor(Math.random()*prizes.length),center=i*30+15,current=norm(rotation),desired=norm(360-center),correction=norm(desired-current),turns=6+Math.floor(Math.random()*3);rotation+=turns*360+correction;wheel.style.transform=`rotate(${rotation}deg)`;setTimeout(()=>{res.textContent='Вы выиграли: '+prizes[i];btn.disabled=false;spinning=false},4600)};</script></body></html>
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#020713" />
+  <title>Колесо фортуны</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#020713;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+    body{display:flex;justify-content:center;background:
+      radial-gradient(circle at 50% 20%,rgba(19,91,167,.42),transparent 34%),
+      radial-gradient(circle at 10% 15%,rgba(0,174,255,.12),transparent 18%),
+      linear-gradient(#020713,#030a18 58%,#02050d)}
+    .app{width:min(100%,620px);min-height:100vh;padding:max(18px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));text-align:center;overflow:hidden}
+    h1{margin:12px 0 4px;font-size:clamp(30px,8vw,52px);letter-spacing:.04em;text-shadow:0 0 18px #159dff}
+    .sub{margin:0 0 22px;color:#b8dbf4;font-size:clamp(14px,3.8vw,18px)}
+    .wheel-shell{position:relative;width:min(92vw,500px);aspect-ratio:1;margin:0 auto;filter:drop-shadow(0 0 22px rgba(0,153,255,.7))}
+    .pointer{position:absolute;z-index:8;left:50%;top:-4px;transform:translateX(-50%);width:68px;height:82px;pointer-events:none}
+    .pointer:before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:0;height:0;border-left:34px solid transparent;border-right:34px solid transparent;border-top:72px solid #ffc52f;filter:drop-shadow(0 0 9px #ff9d00)}
+    .pointer:after{content:"";position:absolute;left:50%;top:12px;transform:translateX(-50%);width:18px;height:18px;background:#eaf8ff;border-radius:50%;box-shadow:0 0 12px #39c7ff}
+    .rim{position:absolute;inset:0;border-radius:50%;background:linear-gradient(145deg,#f4b623,#704007 38%,#ffd85a 58%,#6e3e05);box-shadow:0 0 0 6px #0c2745,0 0 0 10px #1f77bd,inset 0 0 16px #000}
+    .wheel{position:absolute;inset:4.8%;border-radius:50%;overflow:hidden;will-change:transform;transform:rotate(0deg)}
+    svg{display:block;width:100%;height:100%}
+    .hub{position:absolute;z-index:5;left:50%;top:50%;width:22%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#e8fbff 0 10%,#20baff 11% 28%,#0b3f7d 29% 55%,#d9910b 56% 68%,#071425 69%);box-shadow:0 0 20px #18aef6,0 0 0 5px #6b470f}
+    .spin{margin-top:24px;width:min(82%,420px);padding:18px 20px;border:0;border-radius:16px;background:linear-gradient(#ffd45d,#e59a05 55%,#b56c00);color:#fff;font-size:clamp(28px,7vw,40px);font-weight:900;letter-spacing:.03em;box-shadow:0 0 24px rgba(255,169,0,.8),inset 0 2px 0 rgba(255,255,255,.55);cursor:pointer;-webkit-tap-highlight-color:transparent}
+    .spin:active{transform:translateY(1px)}
+    .spin:disabled{opacity:.65;filter:grayscale(.35);cursor:default}
+    .result{min-height:68px;margin:18px auto 0;width:min(92%,480px);display:grid;place-items:center;padding:10px 16px;border:1px solid rgba(58,181,255,.5);border-radius:14px;background:rgba(4,17,39,.68);font-size:clamp(20px,5.5vw,30px);font-weight:800;color:#ffe899;text-shadow:0 0 10px #ffad00}
+    .hint{margin-top:10px;color:#84badd;font-size:13px}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <h1>КОЛЕСО ФОРТУНЫ</h1>
+    <p class="sub">Крути колесо и получай награды</p>
+
+    <div class="wheel-shell" aria-label="Колесо фортуны">
+      <div class="rim"></div>
+      <div class="pointer"></div>
+      <div id="wheel" class="wheel"></div>
+      <div class="hub"></div>
+    </div>
+
+    <button id="spin" class="spin" type="button">КРУТИТЬ</button>
+    <div id="result" class="result" aria-live="polite">Готово к вращению</div>
+    <div class="hint">Во время вращения повторное нажатие заблокировано</div>
+  </main>
+
+  <script>
+    const prizes = [
+      {label:'100 энергии', icon:'⚡', color:'#087343'},
+      {label:'50 000 монет', icon:'🪙', color:'#a76806'},
+      {label:'200 кристаллов', icon:'💎', color:'#0d5b9b'},
+      {label:'10 ускорителей', icon:'🔋', color:'#69299c'},
+      {label:'Редкий сундук', icon:'🎁', color:'#087a43'},
+      {label:'10 000 монет', icon:'🪙', color:'#a56604'},
+      {label:'50 энергии', icon:'⚡', color:'#0b5792'},
+      {label:'500 кристаллов', icon:'💎', color:'#7b2a98'},
+      {label:'Билет', icon:'🎟️', color:'#0c7448'},
+      {label:'5 ускорителей', icon:'🔋', color:'#a86e0c'},
+      {label:'25 000 монет', icon:'🪙', color:'#125b91'},
+      {label:'Эпический сундук', icon:'🎁', color:'#72278d'}
+    ];
+
+    const wheel = document.getElementById('wheel');
+    const spinButton = document.getElementById('spin');
+    const result = document.getElementById('result');
+    const ns = 'http://www.w3.org/2000/svg';
+    const size = 500, center = 250, radius = 245, textRadius = 170;
+    const slice = 360 / prizes.length;
+
+    const svg = document.createElementNS(ns,'svg');
+    svg.setAttribute('viewBox',`0 0 ${size} ${size}`);
+
+    function polar(angleDeg,r){
+      const a=(angleDeg-90)*Math.PI/180;
+      return {x:center+r*Math.cos(a),y:center+r*Math.sin(a)};
+    }
+
+    prizes.forEach((prize,i)=>{
+      const start=i*slice, end=(i+1)*slice;
+      const p1=polar(start,radius), p2=polar(end,radius);
+      const path=document.createElementNS(ns,'path');
+      path.setAttribute('d',`M ${center} ${center} L ${p1.x} ${p1.y} A ${radius} ${radius} 0 0 1 ${p2.x} ${p2.y} Z`);
+      path.setAttribute('fill',prize.color);
+      path.setAttribute('stroke','rgba(175,226,255,.8)');
+      path.setAttribute('stroke-width','2');
+      svg.appendChild(path);
+
+      const mid=start+slice/2;
+      const pos=polar(mid,textRadius);
+      const group=document.createElementNS(ns,'g');
+      group.setAttribute('transform',`translate(${pos.x} ${pos.y}) rotate(${mid})`);
+
+      const icon=document.createElementNS(ns,'text');
+      icon.setAttribute('text-anchor','middle');
+      icon.setAttribute('y','-12');
+      icon.setAttribute('font-size','34');
+      icon.textContent=prize.icon;
+      group.appendChild(icon);
+
+      const text=document.createElementNS(ns,'text');
+      text.setAttribute('text-anchor','middle');
+      text.setAttribute('y','20');
+      text.setAttribute('fill','#fff');
+      text.setAttribute('font-size','15');
+      text.setAttribute('font-weight','800');
+      text.setAttribute('stroke','rgba(0,0,0,.55)');
+      text.setAttribute('stroke-width','3');
+      text.setAttribute('paint-order','stroke');
+      text.textContent=prize.label;
+      group.appendChild(text);
+      svg.appendChild(group);
+    });
+
+    wheel.appendChild(svg);
+
+    let rotation=0;
+    let spinning=false;
+    const normalize=a=>((a%360)+360)%360;
+
+    spinButton.addEventListener('click',()=>{
+      if(spinning) return;
+      spinning=true;
+      spinButton.disabled=true;
+      result.textContent='Колесо вращается…';
+
+      const winnerIndex=Math.floor(Math.random()*prizes.length);
+      const segmentCenter=winnerIndex*slice+slice/2;
+      const currentAngle=normalize(rotation);
+      const desiredAngle=normalize(360-segmentCenter);
+      const correction=normalize(desiredAngle-currentAngle);
+      const fullTurns=6+Math.floor(Math.random()*3);
+      const target=rotation+fullTurns*360+correction;
+      const duration=4600;
+
+      wheel.style.transition=`transform ${duration}ms cubic-bezier(.06,.88,.12,1)`;
+      requestAnimationFrame(()=>{wheel.style.transform=`rotate(${target}deg)`});
+      rotation=target;
+
+      window.setTimeout(()=>{
+        result.textContent=`Вы выиграли: ${prizes[winnerIndex].label}`;
+        spinButton.disabled=false;
+        spinning=false;
+      },duration+80);
+    });
+  </script>
+</body>
+</html>
