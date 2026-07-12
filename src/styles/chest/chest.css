@@ -47,6 +47,7 @@
   perspective: 1100px;
   pointer-events: none;
   filter: drop-shadow(0 18px 18px rgb(0 0 0 / .55));
+  transform-origin: 50% 78%;
 }
 
 .animated-chest::after {
@@ -75,6 +76,7 @@
   bottom: 3%;
   width: 100%;
   height: auto;
+  transition: opacity .2s ease .72s, transform .35s ease;
 }
 
 .chest-lid-part {
@@ -85,38 +87,62 @@
   height: auto;
   transform-origin: 50% 96%;
   transform: translateY(0) rotateX(0deg);
-  transition: transform .9s cubic-bezier(.2,.78,.2,1), opacity .25s ease;
-  will-change: transform;
+  transition: transform .72s cubic-bezier(.18,.86,.24,1), opacity .18s ease .68s;
+  will-change: transform, opacity;
 }
 
 .chest-burst-image {
-  z-index: 2;
-  inset: -8%;
-  width: 116%;
-  height: 116%;
+  z-index: 6;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
   object-fit: contain;
   opacity: 0;
-  transform: scale(.28);
-  transition: opacity .25s ease;
+  transform: scale(.18);
   mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 .chest-open-image {
-  display: none;
+  z-index: 5;
+  inset: -1%;
+  width: 102%;
+  height: 102%;
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(.92) translateY(3%);
+  transition: opacity .28s ease .72s, transform .36s cubic-bezier(.18,.86,.24,1) .68s;
 }
 
-.animated-chest.is-opening .chest-lid-part,
-.animated-chest.is-open .chest-lid-part {
-  transform: translateY(-24%) rotateX(-82deg);
+.animated-chest.is-opening {
+  animation: chest-body-kick 1.05s cubic-bezier(.2,.78,.2,1);
+}
+
+.animated-chest.is-opening .chest-lid-part {
+  transform: translateY(-31%) rotateX(-78deg) scale(.98);
+}
+
+.animated-chest.is-opening .chest-base-part {
+  transform: translateY(1.2%) scale(.995);
 }
 
 .animated-chest.is-opening .chest-burst-image {
-  animation: chest-burst-open 1.4s ease-out forwards;
+  animation: chest-burst-open 1.35s ease-out forwards;
+}
+
+.animated-chest.is-open .chest-base-part,
+.animated-chest.is-open .chest-lid-part {
+  opacity: 0;
+}
+
+.animated-chest.is-open .chest-open-image {
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }
 
 .animated-chest.is-open .chest-burst-image {
-  opacity: .9;
-  transform: scale(1.08);
+  opacity: .72;
+  transform: scale(.98);
 }
 
 .chest-actions-row {
@@ -201,7 +227,7 @@
   position: absolute;
   z-index: 45;
   left: 50%;
-  top: 48%;
+  top: 47%;
   width: min(50%, 320px);
   transform: translate(-50%, -50%);
   display: grid;
@@ -236,10 +262,18 @@ body[data-page="chest"] #toast {
   font-size: 14px;
 }
 
+@keyframes chest-body-kick {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  18% { transform: translate(-50%, -51.2%) scale(1.018); }
+  42% { transform: translate(-50%, -49.4%) scale(.994); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
 @keyframes chest-burst-open {
-  0% { opacity: 0; transform: scale(.25); }
-  38% { opacity: 1; transform: scale(1.22); }
-  100% { opacity: .88; transform: scale(1.03); }
+  0% { opacity: 0; transform: scale(.18); filter: brightness(.8); }
+  32% { opacity: 1; transform: scale(1.22); filter: brightness(1.35); }
+  62% { opacity: .96; transform: scale(1.05); filter: brightness(1.12); }
+  100% { opacity: .72; transform: scale(.98); filter: brightness(1); }
 }
 
 @keyframes chest-reward-pop {
