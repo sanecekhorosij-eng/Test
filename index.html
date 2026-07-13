@@ -6,38 +6,63 @@
   <meta name="theme-color" content="#020b24" />
   <title>Space App</title>
   <style>
-    :root {
-      color-scheme: dark;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { width: 100%; min-height: 100%; margin: 0; overflow: hidden; background: #020b24; }
-    body {
-      min-height: 100svh;
-      background-image: url("./space-background.PNG");
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      touch-action: manipulation;
-      user-select: none;
-    }
-    #app {
-      position: relative;
+    html, body {
       width: 100%;
-      height: 100svh;
+      height: 100%;
+      margin: 0;
       overflow: hidden;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      background: #020b24;
+    }
+    body { touch-action: manipulation; user-select: none; }
+    #app {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
+      overflow: hidden;
+      background: #020b24;
+    }
+    #spaceBackground {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      pointer-events: none;
     }
     .stage { position: absolute; inset: 0; }
+    .error {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 24px;
+      color: white;
+      text-align: center;
+      font: 16px/1.4 system-ui, sans-serif;
+      background: #020b24;
+    }
   </style>
 </head>
 <body>
   <main id="app" aria-label="Игровая сцена">
+    <img id="spaceBackground" src="/Test/space-background.PNG?v=20260713-2" alt="" />
     <section class="stage" id="stage"></section>
+    <div class="error" id="imageError">Фоновое изображение не загрузилось.</div>
   </main>
   <script>
     "use strict";
     const stage = document.getElementById("stage");
+    const image = document.getElementById("spaceBackground");
+    const imageError = document.getElementById("imageError");
+
+    image.addEventListener("error", () => {
+      imageError.style.display = "grid";
+    });
+
     stage.addEventListener("pointerdown", (event) => {
       stage.dataset.lastTapX = String(event.clientX);
       stage.dataset.lastTapY = String(event.clientY);
