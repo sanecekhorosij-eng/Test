@@ -22,85 +22,50 @@ const actionNames = {
   settings: "Настройки"
 };
 
-const notificationElement =
-  document.getElementById("notification");
-
-const buildingButtons =
-  document.querySelectorAll("[data-building]");
-
-const navigationButtons =
-  document.querySelectorAll("[data-page]");
-
-const actionButtons =
-  document.querySelectorAll("[data-action]");
-
-let notificationTimer = null;
+const notification = document.querySelector("#notification");
+const navigationButtons = document.querySelectorAll("[data-page]");
+let notificationTimer;
 
 function showNotification(message) {
-  if (!notificationElement) {
-    return;
-  }
-
-  notificationElement.textContent = message;
-  notificationElement.classList.add("is-visible");
+  if (!notification) return;
 
   window.clearTimeout(notificationTimer);
+  notification.textContent = message;
+  notification.classList.add("is-visible");
 
   notificationTimer = window.setTimeout(() => {
-    notificationElement.classList.remove("is-visible");
+    notification.classList.remove("is-visible");
   }, 2200);
 }
 
-function handleBuildingClick(event) {
-  const button = event.currentTarget;
-  const buildingId = button.dataset.building;
-  const buildingName = buildingNames[buildingId] ?? "Здание";
+document.addEventListener("click", (event) => {
+  const buildingButton = event.target.closest("[data-building]");
 
-  const isLocked = button.classList.contains("is-locked");
+  if (buildingButton) {
+    const name = buildingNames[buildingButton.dataset.building] ?? "Здание";
+    const message = buildingButton.dataset.locked === "true"
+      ? `${name}: требуется второй уровень.`
+      : `Открываем здание: ${name}`;
 
-  if (isLocked) {
-    showNotification(
-      `${buildingName} пока недоступна. Требуется второй уровень.`
-    );
-
+    showNotification(message);
     return;
   }
 
-  showNotification(`Открываем здание: ${buildingName}`);
-}
+  const navigationButton = event.target.closest("[data-page]");
 
-function handleNavigationClick(event) {
-  const selectedButton = event.currentTarget;
-  const pageId = selectedButton.dataset.page;
-  const pageName = pageNames[pageId] ?? "Раздел";
+  if (navigationButton) {
+    navigationButtons.forEach((button) => button.classList.remove("is-active"));
+    navigationButton.classList.add("is-active");
 
-  navigationButtons.forEach((button) => {
-    button.classList.remove("is-active");
-  });
+    const pageName = pageNames[navigationButton.dataset.page] ?? "Раздел";
+    showNotification(`Выбран раздел: ${pageName}`);
+    return;
+  }
 
-  selectedButton.classList.add("is-active");
+  const actionButton = event.target.closest("[data-action]");
 
-  showNotification(`Выбран раздел: ${pageName}`);
-}
-
-function handleActionClick(event) {
-  const button = event.currentTarget;
-  const actionId = button.dataset.action;
-  const actionName = actionNames[actionId] ?? "Действие";
-
-  showNotification(`Открываем: ${actionName}`);
-}
-
-buildingButtons.forEach((button) => {
-  button.addEventListener("click", handleBuildingClick);
+  if (actionButton) {
+    const actionName = actionNames[actionButton.dataset.action] ?? "Действие";
+    showNotification(`Открываем: ${actionName}`);
+  }
 });
-
-navigationButtons.forEach((button) => {
-  button.addEventListener("click", handleNavigationClick);
-});
-
-actionButtons.forEach((button) => {
-  button.addEventListener("click", handleActionClick);
-});
-
-showNotification("Добро пожаловать на Остров изобретателя!");
