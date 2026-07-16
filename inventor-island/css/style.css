@@ -75,19 +75,15 @@ button {
 .game-window {
   position: relative;
 
-  width: min(100%, 1536px);
-  aspect-ratio: 1536 / 1024;
+  width: 100%;
+  height: 100%;
 
   overflow: hidden;
 
-  border: 1px solid rgba(126, 189, 233, 0.52);
-  border-radius: var(--radius-medium);
+  border: 0;
+  border-radius: 0;
 
   background: #084d82;
-
-  box-shadow:
-    0 30px 90px rgba(0, 0, 0, 0.5),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .game-background {
