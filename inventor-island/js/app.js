@@ -42,7 +42,14 @@ document.addEventListener("click", (event) => {
   const buildingButton = event.target.closest("[data-building]");
 
   if (buildingButton) {
-    const name = buildingNames[buildingButton.dataset.building] ?? "Здание";
+    const building = buildingButton.dataset.building;
+
+    if (building === "administration") {
+      window.location.href = "administration.html";
+      return;
+    }
+
+    const name = buildingNames[building] ?? "Здание";
     const message = buildingButton.dataset.locked === "true"
       ? `${name}: требуется второй уровень.`
       : `Открываем здание: ${name}`;
