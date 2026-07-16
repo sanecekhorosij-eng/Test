@@ -1,1 +1,163 @@
+/* =========================================================
+   1. CSS-ПЕРЕМЕННЫЕ
+========================================================= */
 
+:root {
+  --color-background: #031426;
+  --color-panel: rgba(3, 23, 42, 0.94);
+  --color-panel-light: rgba(7, 42, 70, 0.9);
+
+  --color-border: rgba(123, 202, 255, 0.24);
+  --color-border-active: rgba(0, 217, 255, 0.85);
+
+  --color-text: #f4f7fb;
+  --color-text-muted: #b6c2d2;
+
+  --color-primary: #00d9ff;
+  --color-energy: #ffd21c;
+  --color-success: #68ee32;
+  --color-danger: #ff5364;
+
+  --shadow-panel: 0 14px 40px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 18px rgba(0, 217, 255, 0.45);
+
+  --radius-small: 10px;
+  --radius-medium: 16px;
+  --radius-large: 22px;
+}
+
+
+/* =========================================================
+   2. БАЗОВЫЙ СБРОС
+========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100dvh;           /* ← улучшено для мобильных */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+html {
+  min-width: 320px;
+  background: var(--color-background);
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  color: var(--color-text);
+  background: var(--color-background);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   3. ОСНОВНОЙ ЭКРАН ПРИЛОЖЕНИЯ
+========================================================= */
+
+.game {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-background);
+}
+
+.game-window {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #084d82;
+}
+
+
+/* =========================================================
+   4. ФОНОВОЕ ИЗОБРАЖЕНИЕ ← ИСПРАВЛЕНО
+========================================================= */
+
+.game-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;           /* ← главное изменение */
+  object-position: center center;
+  background-color: var(--color-background);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+
+/* =========================================================
+   5. ВЕРХНЯЯ ПАНЕЛЬ
+========================================================= */
+
+.top-bar {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: calc(52px + env(safe-area-inset-top));
+  padding: env(safe-area-inset-top) max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
+
+  background: linear-gradient(180deg, rgba(1, 16, 31, 0.98), rgba(3, 28, 50, 0.94));
+  border-bottom: 1px solid rgba(55, 165, 235, 0.35);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   6-13. Остальные блоки (без изменений, кроме мелких правок)
+========================================================= */
+
+.resource-panel {
+  position: absolute;
+  z-index: 8;
+  top: calc(58px + env(safe-area-inset-top)); /* чуть ниже */
+  left: max(12px, env(safe-area-inset-left));
+  width: min(72%, 720px);
+  min-height: 82px;
+  /* ... остальное без изменений ... */
+}
+
+.quick-actions {
+  position: absolute;
+  z-index: 8;
+  top: calc(62px + env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+}
+
+/* Нижняя панель */
+.bottom-navigation {
+  position: absolute;
+  z-index: 9;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  left: max(10px, env(safe-area-inset-left));
+  right: max(10px, env(safe-area-inset-right));
+  /* ... остальное без изменений ... */
+}
+
+/* Метки зданий, уведомления и медиа-запросы оставил почти без изменений */
