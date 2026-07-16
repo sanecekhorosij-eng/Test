@@ -1,266 +1,56 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-
+  <meta charset="utf-8">
   <meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
->
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+  >
   <meta name="theme-color" content="#031426">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta
-  name="apple-mobile-web-app-status-bar-style"
-  content="black-translucent"
->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <title>Остров изобретателя</title>
 
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-  <main class="game">
-    <section class="game-window">
-      <img
-        class="game-background"
-        src="assets/images/island-background.png"
-        alt="Остров изобретателя"
-      >
+  <main class="game" aria-label="Остров изобретателя">
+    <img
+      class="game__background"
+      src="assets/images/island-background.png"
+      alt="Остров изобретателя с панелью ресурсов, зданиями и навигацией"
+      draggable="false"
+    >
 
-      <header class="top-bar">
-        <div class="app-title">
-          <span class="app-title__icon" aria-hidden="true">🏝️</span>
-          <span class="app-title__text">Остров изобретателя</span>
-        </div>
-      </header>
+    <!--
+      Интерфейс уже нарисован на фоновом изображении. Эти прозрачные кнопки
+      добавляют взаимодействие и доступность, не дублируя значки и подписи.
+    -->
+    <div class="hotspots" role="group" aria-label="Интерактивные области">
+      <button class="hotspot hotspot--achievements" type="button" data-action="achievements" aria-label="Достижения"></button>
+      <button class="hotspot hotspot--journal" type="button" data-action="journal" aria-label="Журнал"></button>
+      <button class="hotspot hotspot--settings" type="button" data-action="settings" aria-label="Настройки"></button>
 
-      <section class="resource-panel" aria-label="Ресурсы игрока">
-        <article class="resource-card">
-          <div class="resource-card__icon resource-card__icon--energy">
-            ⚡
-          </div>
+      <button class="hotspot hotspot--generator" type="button" data-building="generator" aria-label="Генератор, уровень 1"></button>
+      <button class="hotspot hotspot--mine" type="button" data-building="mine" data-locked="true" aria-label="Шахта, откроется на уровне 2"></button>
+      <button class="hotspot hotspot--workshop" type="button" data-building="workshop" aria-label="Мастерская, уровень 1"></button>
+      <button class="hotspot hotspot--administration" type="button" data-building="administration" data-locked="true" aria-label="Администрация, откроется на уровне 2"></button>
+      <button class="hotspot hotspot--laboratory" type="button" data-building="laboratory" data-locked="true" aria-label="Лаборатория, откроется на уровне 2"></button>
 
-          <div class="resource-card__content">
-            <span class="resource-card__label">Энергия</span>
-
-            <div class="resource-card__value-row">
-              <strong
-                class="resource-card__value"
-                id="energy-value"
-              >
-                125
-              </strong>
-
-              <span class="resource-card__limit">/200</span>
-            </div>
-
-            <span class="resource-card__rate">+5/сек</span>
-          </div>
-        </article>
-
-        <article class="resource-card">
-          <div class="resource-card__icon">⚙️</div>
-
-          <div class="resource-card__content">
-            <span class="resource-card__label">Детали</span>
-
-            <strong
-              class="resource-card__value"
-              id="parts-value"
-            >
-              32
-            </strong>
-          </div>
-        </article>
-
-        <article class="resource-card">
-          <div class="resource-card__icon">💎</div>
-
-          <div class="resource-card__content">
-            <span class="resource-card__label">Кристаллы</span>
-
-            <strong
-              class="resource-card__value"
-              id="crystals-value"
-            >
-              8
-            </strong>
-          </div>
-        </article>
-
-        <article class="resource-card resource-card--level">
-          <div class="resource-card__icon">⭐</div>
-
-          <div class="resource-card__content">
-            <span class="resource-card__label">Уровень</span>
-
-            <strong
-              class="resource-card__value"
-              id="level-value"
-            >
-              1
-            </strong>
-
-            <div class="level-progress">
-              <div class="level-progress__track">
-                <div
-                  class="level-progress__fill"
-                  id="level-progress-fill"
-                ></div>
-              </div>
-
-              <span
-                class="level-progress__text"
-                id="level-progress-text"
-              >
-                40/100
-              </span>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <nav
-        class="quick-actions"
-        aria-label="Быстрые действия"
-      >
-        <button
-          class="round-button"
-          type="button"
-          data-action="achievements"
-          aria-label="Достижения"
-        >
-          🏆
-        </button>
-
-        <button
-          class="round-button"
-          type="button"
-          data-action="journal"
-          aria-label="Журнал"
-        >
-          📖
-        </button>
-
-        <button
-          class="round-button"
-          type="button"
-          data-action="settings"
-          aria-label="Настройки"
-        >
-          ⚙️
-        </button>
+      <nav class="navigation-hotspots" aria-label="Основная навигация">
+        <button class="navigation-hotspot is-active" type="button" data-page="island" aria-label="Остров"></button>
+        <button class="navigation-hotspot" type="button" data-page="inventions" aria-label="Изобретения"></button>
+        <button class="navigation-hotspot" type="button" data-page="blueprints" aria-label="Чертежи"></button>
+        <button class="navigation-hotspot" type="button" data-page="collection" aria-label="Коллекция"></button>
+        <button class="navigation-hotspot" type="button" data-page="achievements" aria-label="Достижения"></button>
       </nav>
+    </div>
 
-      <section
-        class="building-layer"
-        aria-label="Здания острова"
-      >
-        <button
-          class="building-marker building-marker--generator"
-          type="button"
-          data-building="generator"
-        >
-          <span class="building-marker__name">Генератор</span>
-          <span class="building-marker__level">Ур. 1</span>
-        </button>
-
-        <button
-          class="building-marker building-marker--mine is-locked"
-          type="button"
-          data-building="mine"
-        >
-          <span class="building-marker__name">Шахта</span>
-          <span class="building-marker__level">🔒 Ур. 2</span>
-        </button>
-
-        <button
-          class="building-marker building-marker--workshop"
-          type="button"
-          data-building="workshop"
-        >
-          <span class="building-marker__name">Мастерская</span>
-          <span class="building-marker__level">Ур. 1</span>
-        </button>
-
-        <button
-          class="building-marker building-marker--administration is-locked"
-          type="button"
-          data-building="administration"
-        >
-          <span class="building-marker__name">Администрация</span>
-          <span class="building-marker__level">🔒 Ур. 2</span>
-        </button>
-
-        <button
-          class="building-marker building-marker--laboratory is-locked"
-          type="button"
-          data-building="laboratory"
-        >
-          <span class="building-marker__name">Лаборатория</span>
-          <span class="building-marker__level">🔒 Ур. 2</span>
-        </button>
-      </section>
-
-      <nav
-        class="bottom-navigation"
-        aria-label="Основная навигация"
-      >
-        <button
-          class="navigation-button is-active"
-          type="button"
-          data-page="island"
-        >
-          <span class="navigation-button__icon">🏝️</span>
-          <span class="navigation-button__text">Остров</span>
-        </button>
-
-        <button
-          class="navigation-button"
-          type="button"
-          data-page="inventions"
-        >
-          <span class="navigation-button__icon">💡</span>
-          <span class="navigation-button__text">Изобретения</span>
-        </button>
-
-        <button
-          class="navigation-button"
-          type="button"
-          data-page="blueprints"
-        >
-          <span class="navigation-button__icon">📘</span>
-          <span class="navigation-button__text">Чертежи</span>
-        </button>
-
-        <button
-          class="navigation-button"
-          type="button"
-          data-page="collection"
-        >
-          <span class="navigation-button__icon">📦</span>
-          <span class="navigation-button__text">Коллекция</span>
-        </button>
-
-        <button
-          class="navigation-button"
-          type="button"
-          data-page="achievements"
-        >
-          <span class="navigation-button__icon">🏅</span>
-          <span class="navigation-button__text">Достижения</span>
-        </button>
-      </nav>
-
-      <div
-        class="notification"
-        id="notification"
-        role="status"
-        aria-live="polite"
-      ></div>
-    </section>
+    <div class="notification" id="notification" role="status" aria-live="polite"></div>
   </main>
 
   <script src="js/app.js"></script>
