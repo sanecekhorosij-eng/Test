@@ -1,31 +1,9 @@
 :root {
-  --color-background: #031426;
-  --color-panel: rgba(3, 23, 42, 0.94);
-  --color-panel-light: rgba(7, 42, 70, 0.9);
-
-  --color-border: rgba(123, 202, 255, 0.24);
-  --color-border-active: rgba(0, 217, 255, 0.85);
-
-  --color-text: #f4f7fb;
-  --color-text-muted: #b6c2d2;
-
-  --color-primary: #00d9ff;
-  --color-energy: #ffd21c;
-  --color-success: #68ee32;
-  --color-danger: #ff5364;
-
-  --shadow-panel: 0 14px 40px rgba(0, 0, 0, 0.35);
-  --shadow-glow: 0 0 18px rgba(0, 217, 255, 0.45);
-
-  --radius-small: 10px;
-  --radius-medium: 16px;
-  --radius-large: 22px;
+  color-scheme: dark;
+  --background: #031426;
+  --focus: #00d9ff;
+  --text: #f4f7fb;
 }
-
-
-/* =========================================================
-   2. БАЗОВЫЙ СБРОС
-========================================================= */
 
 *,
 *::before,
@@ -36,124 +14,217 @@
 html,
 body {
   width: 100%;
-  height: 100dvh;           /* ← улучшено для мобильных */
+  height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
-}
-
-html {
-  min-width: 320px;
-  background: var(--color-background);
+  background: var(--background);
 }
 
 body {
   position: fixed;
   inset: 0;
-  color: var(--color-text);
-  background: var(--color-background);
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  min-width: 320px;
+  min-height: 100svh;
+  min-height: 100dvh;
   overscroll-behavior: none;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
 }
 
-
-/* =========================================================
-   3. ОСНОВНОЙ ЭКРАН ПРИЛОЖЕНИЯ
-========================================================= */
+button {
+  font: inherit;
+}
 
 .game {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
   overflow: hidden;
-  background: var(--color-background);
+  background: var(--background);
+  isolation: isolate;
 }
 
-.game-window {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #084d82;
-}
-
-
-/* =========================================================
-   4. ФОНОВОЕ ИЗОБРАЖЕНИЕ ← ИСПРАВЛЕНО
-========================================================= */
-
-.game-background {
+.game__background {
   position: absolute;
+  z-index: 0;
   inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;           /* ← главное изменение */
-  object-position: center center;
-  background-color: var(--color-background);
+  object-fit: fill;
+  object-position: center;
   pointer-events: none;
-  user-select: none;
   -webkit-user-drag: none;
 }
 
-
-/* =========================================================
-   5. ВЕРХНЯЯ ПАНЕЛЬ
-========================================================= */
-
-.top-bar {
+.hotspots {
   position: absolute;
-  z-index: 10;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  height: calc(52px + env(safe-area-inset-top));
-  padding: env(safe-area-inset-top) max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
-
-  background: linear-gradient(180deg, rgba(1, 16, 31, 0.98), rgba(3, 28, 50, 0.94));
-  border-bottom: 1px solid rgba(55, 165, 235, 0.35);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  z-index: 1;
+  inset: 0;
 }
 
-
-/* =========================================================
-   6-13. Остальные блоки (без изменений, кроме мелких правок)
-========================================================= */
-
-.resource-panel {
+.hotspot,
+.navigation-hotspot {
   position: absolute;
-  z-index: 8;
-  top: calc(58px + env(safe-area-inset-top)); /* чуть ниже */
-  left: max(12px, env(safe-area-inset-left));
-  width: min(72%, 720px);
-  min-height: 82px;
-  /* ... остальное без изменений ... */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.quick-actions {
-  position: absolute;
-  z-index: 8;
-  top: calc(62px + env(safe-area-inset-top));
-  right: max(12px, env(safe-area-inset-right));
+.hotspot:focus-visible,
+.navigation-hotspot:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  background: rgb(0 217 255 / 12%);
 }
 
-/* Нижняя панель */
-.bottom-navigation {
-  position: absolute;
-  z-index: 9;
-  bottom: max(12px, env(safe-area-inset-bottom));
-  left: max(10px, env(safe-area-inset-left));
-  right: max(10px, env(safe-area-inset-right));
-  /* ... остальное без изменений ... */
+.hotspot:active,
+.navigation-hotspot:active {
+  background: rgb(0 217 255 / 14%);
 }
 
-/* Метки зданий, уведомления и медиа-запросы оставил почти без изменений */
+/* Верхние круглые кнопки. */
+.hotspot--achievements {
+  top: 7.5%;
+  left: 78.7%;
+  width: 6.1%;
+  height: 10%;
+  border-radius: 50%;
+}
+
+.hotspot--journal {
+  top: 7.5%;
+  left: 85.8%;
+  width: 6.1%;
+  height: 10%;
+  border-radius: 50%;
+}
+
+.hotspot--settings {
+  top: 7.5%;
+  left: 92.8%;
+  width: 6.1%;
+  height: 10%;
+  border-radius: 50%;
+}
+
+/* Кликабельные области зданий и их подписей. */
+.hotspot--generator {
+  top: 19%;
+  left: 42%;
+  width: 15%;
+  height: 27%;
+}
+
+.hotspot--mine {
+  top: 41%;
+  left: 14.5%;
+  width: 19%;
+  height: 22%;
+}
+
+.hotspot--workshop {
+  top: 52%;
+  left: 36.5%;
+  width: 17%;
+  height: 24%;
+}
+
+.hotspot--administration {
+  top: 24%;
+  left: 61.5%;
+  width: 20%;
+  height: 30%;
+}
+
+.hotspot--laboratory {
+  top: 49%;
+  left: 72%;
+  width: 18%;
+  height: 30%;
+}
+
+.navigation-hotspots {
+  position: absolute;
+  right: 1.4%;
+  bottom: 1.1%;
+  left: 1.4%;
+  height: 8.3%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.25%;
+}
+
+.navigation-hotspot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.notification {
+  position: absolute;
+  z-index: 3;
+  top: 19%;
+  left: 50%;
+  width: max-content;
+  max-width: min(88vw, 520px);
+  padding: 11px 18px;
+  border: 1px solid rgb(0 217 255 / 65%);
+  border-radius: 12px;
+  background: rgb(2 22 38 / 94%);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 38%), 0 0 18px rgb(0 217 255 / 28%);
+  color: var(--text);
+  font: 600 clamp(0.78rem, 1.4vw, 1rem) / 1.35 Inter, "Segoe UI", Arial, sans-serif;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -10px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.notification.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (orientation: portrait) {
+  .game__background {
+    object-fit: cover;
+  }
+
+  .hotspots {
+    display: none;
+  }
+
+  .game::after {
+    position: absolute;
+    z-index: 4;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+    background: rgb(3 20 38 / 84%);
+    color: var(--text);
+    font: 700 clamp(1rem, 5vw, 1.45rem) / 1.4 Inter, "Segoe UI", Arial, sans-serif;
+    text-align: center;
+    content: "Поверните устройство горизонтально";
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notification {
+    transition: none;
+  }
+}
