@@ -18,7 +18,7 @@
 
   <title>Администрация — Остров изобретателя</title>
 
-  <link rel="stylesheet" href="css/administration.css?v=4">
+  <link rel="stylesheet" href="css/administration.css?v=5">
 </head>
 
 <body>
@@ -133,11 +133,13 @@
       class="navigation-hotspots"
       aria-label="Переходы по локациям"
     >
-      <a
+      <button
         class="interface-hotspot navigation-hotspot is-active"
-        href="index.html"
-        aria-label="Перейти на остров"
-      ></a>
+        type="button"
+        data-page="island"
+        aria-label="Остров"
+        aria-current="page"
+      ></button>
 
       <button
         class="interface-hotspot navigation-hotspot"
@@ -214,6 +216,6 @@
     </div>
   </main>
 
-  <script src="js/administration.js?v=4"></script>
+  <script src="js/administration.js?v=5"></script>
 </body>
 </html>

@@ -2,9 +2,9 @@
 
 /*
   Если изображения были заменены, увеличьте это число:
-  "4" → "5". Браузер загрузит свежие файлы.
+  Увеличьте значение, чтобы браузер загрузил свежие файлы.
 */
-const ASSET_VERSION = "4";
+const ASSET_VERSION = "5";
 
 const departments = {
   administration: {
@@ -27,6 +27,7 @@ const departments = {
 };
 
 const pageNames = {
+  island: "Остров",
   inventions: "Изобретения",
   blueprints: "Чертежи",
   laboratory: "Лаборатория",
@@ -86,7 +87,7 @@ function showNotification(message) {
   Надёжная загрузка изображений.
 
   Обработчики load и error подключаются до установки src.
-  Параметр ?v=4 заставляет Safari и GitHub Pages
+  Версия в адресе заставляет Safari и GitHub Pages
   запросить свежую версию изображения.
 */
 function loadSceneAssets() {
@@ -214,9 +215,11 @@ pageButtons.forEach((button) => {
     const pageName =
       pageNames[pageId] ?? "Раздел";
 
-    showNotification(
-      `${pageName}: страницу подключим следующим этапом`
-    );
+    const message = pageId === "island"
+      ? "Вы уже находитесь в разделе «Остров»"
+      : `${pageName}: страницу подключим следующим этапом`;
+
+    showNotification(message);
   });
 });
 
