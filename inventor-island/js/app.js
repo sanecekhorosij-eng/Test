@@ -49,6 +49,11 @@ document.addEventListener("click", (event) => {
       return;
     }
 
+    if (building === "mine") {
+      window.location.href = "mine.html";
+      return;
+    }
+
     const name = buildingNames[building] ?? "Здание";
     const message = buildingButton.dataset.locked === "true"
       ? `${name}: требуется второй уровень.`
