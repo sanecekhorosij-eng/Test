@@ -1,45 +1,150 @@
 "use strict";
 
-const departmentNames = {
-  blueprints: "Отдел проектирования чертежей",
-  administration: "Центральная администрация",
-  inventions: "Лаборатория изобретений"
+const departments = {
+  administration: {
+    title: "Центральная администрация",
+    description:
+      "Центр управления островом и развития инфраструктуры."
+  },
+
+  blueprints: {
+    title: "Отдел чертежей",
+    description:
+      "Проектирование зданий, механизмов и новых модулей."
+  },
+
+  inventions: {
+    title: "Отдел изобретений",
+    description:
+      "Исследование технологий и создание экспериментальных устройств."
+  }
 };
 
-const notification = document.querySelector("#notification");
+const pageNames = {
+  inventions: "Изобретения",
+  blueprints: "Чертежи",
+  laboratory: "Лаборатория",
+  collection: "Коллекция",
+  achievements: "Достижения"
+};
+
+const utilityNames = {
+  achievements: "Достижения",
+  guide: "Справочник",
+  settings: "Настройки"
+};
+
+const departmentButtons =
+  document.querySelectorAll("[data-department]");
+
+const pageButtons =
+  document.querySelectorAll("[data-page]");
+
+const utilityButtons =
+  document.querySelectorAll("[data-utility]");
+
+const departmentInfo =
+  document.querySelector("#department-info");
+
+const departmentTitle =
+  document.querySelector("#department-title");
+
+const departmentDescription =
+  document.querySelector("#department-description");
+
+const closeInfoButton =
+  document.querySelector("#close-info");
+
+const notification =
+  document.querySelector("#notification");
+
 let notificationTimer;
 
 function showNotification(message) {
   if (!notification) return;
 
   window.clearTimeout(notificationTimer);
+
   notification.textContent = message;
   notification.classList.add("is-visible");
 
   notificationTimer = window.setTimeout(() => {
     notification.classList.remove("is-visible");
-  }, 2200);
+  }, 2400);
 }
 
-// Пока изображения отделов не добавлены в assets/images, остаются видны
-// встроенные CSS-макеты. После загрузки PNG они заменятся автоматически.
-document.querySelectorAll(".department__image").forEach((image) => {
-  const hideMissingImage = () => {
-    if (!image.naturalWidth) image.hidden = true;
-  };
+function clearDepartmentSelection() {
+  departmentButtons.forEach((button) => {
+    button.classList.remove("is-selected");
+    button.setAttribute("aria-pressed", "false");
+  });
+}
 
-  image.addEventListener("error", hideMissingImage);
+departmentButtons.forEach((button) => {
+  button.setAttribute("aria-pressed", "false");
 
-  if (image.complete) {
-    hideMissingImage();
-  }
+  button.addEventListener("click", () => {
+    const departmentId =
+      button.dataset.department;
+
+    const department =
+      departments[departmentId];
+
+    if (!department) return;
+
+    clearDepartmentSelection();
+
+    button.classList.add("is-selected");
+    button.setAttribute("aria-pressed", "true");
+
+    departmentTitle.textContent =
+      department.title;
+
+    departmentDescription.textContent =
+      department.description;
+
+    departmentInfo.hidden = false;
+
+    showNotification(
+      `${department.title}: объект выбран`
+    );
+  });
 });
 
-document.addEventListener("click", (event) => {
-  const departmentButton = event.target.closest("[data-department]");
+closeInfoButton.addEventListener("click", () => {
+  departmentInfo.hidden = true;
 
-  if (!departmentButton) return;
+  clearDepartmentSelection();
+});
 
-  const departmentName = departmentNames[departmentButton.dataset.department] ?? "Отдел";
-  showNotification(`${departmentName}: раздел будет добавлен следующим этапом.`);
+/*
+  Эти страницы пока не существуют.
+  Поэтому показываем сообщение вместо перехода на 404.
+*/
+pageButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const pageId =
+      button.dataset.page;
+
+    const pageName =
+      pageNames[pageId] ?? "Раздел";
+
+    showNotification(
+      `${pageName}: страницу подключим следующим этапом`
+    );
+  });
+});
+
+utilityButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const utilityId =
+      button.dataset.utility;
+
+    const utilityName =
+      utilityNames[utilityId] ?? "Раздел";
+
+    showNotification(
+      `${utilityName}: раздел подключим позже`
+    );
+  });
 });
