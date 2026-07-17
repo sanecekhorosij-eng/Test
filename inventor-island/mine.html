@@ -1,1 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#031426">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+
+  <title>Шахта — Остров изобретателя</title>
+
+  <link
+    rel="preload"
+    href="assets/images/mine-background.jpg"
+    as="image"
+  >
+
+  <link rel="stylesheet" href="css/mine.css?v=2">
+</head>
+
+<body>
+  <main
+    class="mine"
+    aria-label="Шахта острова изобретателя"
+  >
+    <!-- Основной фон шахты -->
+    <img
+      class="mine__background"
+      src="assets/images/mine-background.jpg"
+      alt="Вход в шахту на острове"
+      draggable="false"
+    >
+
+    <!-- Верхняя панель -->
+    <header class="game-header">
+      <div class="location-title">
+        <span aria-hidden="true">⛏️</span>
+        <span>ШАХТА</span>
+      </div>
+
+      <!-- Ресурсы -->
+      <section
+        class="resources"
+        aria-label="Ресурсы игрока"
+      >
+        <article class="resource">
+          <span
+            class="resource__icon"
+            aria-hidden="true"
+          >
+            ⚡
+          </span>
+
+          <span class="resource__content">
+            <span class="resource__name">
+              Энергия
+            </span>
+
+            <strong>
+              125
+              <small>/200</small>
+            </strong>
+
+            <span class="resource__bonus">
+              +5/сек
+            </span>
+          </span>
+        </article>
+
+        <article class="resource">
+          <span
+            class="resource__icon"
+            aria-hidden="true"
+          >
+            ⚙️
+          </span>
+
+          <span class="resource__content">
+            <span class="resource__name">
+              Детали
+            </span>
+
+            <strong>32</strong>
+          </span>
+        </article>
+
+        <article class="resource">
+          <span
+            class="resource__icon resource__icon--crystal"
+            aria-hidden="true"
+          >
+            ◆
+          </span>
+
+          <span class="resource__content">
+            <span class="resource__name">
+              Кристаллы
+            </span>
+
+            <strong>8</strong>
+          </span>
+        </article>
+
+        <article class="resource resource--level">
+          <span
+            class="resource__icon"
+            aria-hidden="true"
+          >
+            ⭐
+          </span>
+
+          <span class="resource__content">
+            <span class="resource__name">
+              Уровень
+            </span>
+
+            <strong>1</strong>
+
+            <span class="level-progress">
+              <span class="level-progress__fill"></span>
+            </span>
+
+            <small class="level-progress__value">
+              40/100
+            </small>
+          </span>
+        </article>
+      </section>
+
+      <!-- Верхние кнопки справа -->
+      <div
+        class="utilities"
+        aria-label="Служебное меню"
+      >
+        <button
+          type="button"
+          data-utility="achievements"
+          aria-label="Достижения"
+        >
+          🏆
+        </button>
+
+        <button
+          type="button"
+          data-utility="guide"
+          aria-label="Справочник"
+        >
+          📖
+        </button>
+
+        <button
+          type="button"
+          data-utility="settings"
+          aria-label="Настройки"
+        >
+          ⚙️
+        </button>
+      </div>
+    </header>
+
+    <!-- Основная сцена -->
+    <section
+      class="mine-scene"
+      aria-label="Производственные объекты шахты"
+    >
+      <!-- Невидимая кнопка входа в шахту -->
+      <button
+        class="mine-entrance"
+        type="button"
+        data-object="entrance"
+        aria-label="Войти в шахту"
+      ></button>
+
+      <!-- Добыча деталей -->
+      <section
+        class="facility facility--details"
+        aria-label="Добыча деталей"
+      >
+        <button
+          class="facility__object"
+          type="button"
+          data-production="details"
+          aria-label="Открыть установку добычи деталей"
+        >
+          <img
+            src="assets/images/parts-extractor.png"
+            alt="Установка добычи деталей"
+            draggable="false"
+          >
+        </button>
+
+        <div class="production-card">
+          <span class="production-card__title">
+            ДОБЫЧА ДЕТАЛЕЙ
+          </span>
+
+          <span
+            class="production-card__icon"
+            aria-hidden="true"
+          >
+            ⚙️
+          </span>
+
+          <strong>
+            <span data-rate="details">32</span>/час
+          </strong>
+
+          <small>
+            Ур.
+            <span data-level="details">1</span>
+          </small>
+
+          <button
+            class="upgrade-button"
+            type="button"
+            data-upgrade="details"
+            aria-label="Улучшить добычу деталей"
+          >
+            ↑
+          </button>
+        </div>
+      </section>
+
+      <!-- Добыча кристаллов -->
+      <section
+        class="facility facility--crystals"
+        aria-label="Добыча кристаллов"
+      >
+        <button
+          class="facility__object"
+          type="button"
+          data-production="crystals"
+          aria-label="Открыть установку добычи кристаллов"
+        >
+          <img
+            src="assets/images/crystal-extractor.png"
+            alt="Установка добычи кристаллов"
+            draggable="false"
+          >
+        </button>
+
+        <div class="production-card">
+          <span class="production-card__title">
+            ДОБЫЧА КРИСТАЛЛОВ
+          </span>
+
+          <span
+            class="production-card__icon production-card__icon--crystal"
+            aria-hidden="true"
+          >
+            ◆
+          </span>
+
+          <strong>
+            <span data-rate="crystals">16</span>/час
+          </strong>
+
+          <small>
+            Ур.
+            <span data-level="crystals">1</span>
+          </small>
+
+          <button
+            class="upgrade-button"
+            type="button"
+            data-upgrade="crystals"
+            aria-label="Улучшить добычу кристаллов"
+          >
+            ↑
+          </button>
+        </div>
+      </section>
+    </section>
+
+    <!-- Нижняя навигация -->
+    <nav
+      class="bottom-navigation"
+      aria-label="Основная навигация"
+    >
+      <a
+        href="index.html"
+        aria-label="Вернуться на остров"
+      >
+        <span aria-hidden="true">🏝️</span>
+        <span>ОСТРОВ</span>
+      </a>
+
+      <button
+        type="button"
+        data-page="inventions"
+      >
+        <span aria-hidden="true">💡</span>
+        <span>ИЗОБРЕТЕНИЯ</span>
+      </button>
+
+      <button
+        type="button"
+        data-page="blueprints"
+      >
+        <span aria-hidden="true">📐</span>
+        <span>ЧЕРТЕЖИ</span>
+      </button>
+
+      <button
+        class="is-active"
+        type="button"
+        data-page="laboratory"
+        aria-current="page"
+      >
+        <span aria-hidden="true">⚗️</span>
+        <span>ЛАБОРАТОРИЯ</span>
+      </button>
+
+      <button
+        type="button"
+        data-page="collection"
+      >
+        <span aria-hidden="true">📦</span>
+        <span>КОЛЛЕКЦИЯ</span>
+      </button>
+
+      <button
+        type="button"
+        data-page="achievements"
+      >
+        <span aria-hidden="true">🏅</span>
+        <span>ДОСТИЖЕНИЯ</span>
+      </button>
+    </nav>
+
+    <!-- Уведомления -->
+    <div
+      class="notification"
+      id="notification"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+    <!-- Сообщение при вертикальном положении -->
+    <div class="rotate-message">
+      Поверните устройство горизонтально
+    </div>
+  </main>
+
+  <script src="js/mine.js?v=2"></script>
+</body>
+</html>
