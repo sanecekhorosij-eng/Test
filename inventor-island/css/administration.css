@@ -182,8 +182,8 @@ a {
   Левая контрольная станция.
 */
 .department--blueprints {
-  bottom: 8.5%;
-  left: -2.5%;
+  bottom: calc(8.5% + 1.5cm);
+  left: calc(-2.5% + 1.5cm);
 
   width: 23.1%;
 }
@@ -192,10 +192,10 @@ a {
   Правый генератор.
 */
 .department--inventions {
-  right: -2.5%;
+  right: calc(-2.5% + 1cm);
   bottom: 8.5%;
 
-  width: 23.1%;
+  width: 25.41%;
 }
 
 .department--blueprints:hover,
