@@ -193,9 +193,9 @@ a {
 */
 .department--inventions {
   right: calc(-2.5% + 1cm);
-  bottom: calc(8.5% + 1.5cm);
+  bottom: calc(8.5% + 0.5cm);
 
-  width: 26.68%;
+  width: 29.35%;
 }
 
 .department--blueprints:hover,
