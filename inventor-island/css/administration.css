@@ -192,7 +192,7 @@ a {
   Правый генератор.
 */
 .department--inventions {
-  right: calc(-2.5% + 1cm);
+  right: calc(-2.5% + 0.3cm);
   bottom: calc(8.5% + 0.5cm);
 
   width: 29.35%;
