@@ -341,6 +341,11 @@ button {
   right: 0.5%;
 }
 
+.facility--crystals .facility__object {
+  transform: scale(1.1);
+  transform-origin: center bottom;
+}
+
 .facility__object {
   position: absolute;
   inset: 0 0 12%;
