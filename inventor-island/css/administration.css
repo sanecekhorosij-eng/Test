@@ -165,7 +165,7 @@ a {
   top: 15%;
   left: 50%;
 
-  width: 56%;
+  width: 44.8%;
 
   transform: translateX(-50%);
 }
@@ -185,7 +185,7 @@ a {
   bottom: 8.5%;
   left: -2.5%;
 
-  width: 22%;
+  width: 23.1%;
 }
 
 /*
@@ -195,7 +195,7 @@ a {
   right: -2.5%;
   bottom: 8.5%;
 
-  width: 22%;
+  width: 23.1%;
 }
 
 .department--blueprints:hover,
